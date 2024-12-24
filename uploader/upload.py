@@ -14,12 +14,8 @@ client = Minio(
     secure=False
 )
 
-print(MINIO_ENDPOINT, MINIO_USER, MINIO_PASSWORD, BUCKET_NAME)
-
 if not client.bucket_exists(BUCKET_NAME):
     client.make_bucket(BUCKET_NAME)
-
-print(MINIO_ENDPOINT, MINIO_USER, MINIO_PASSWORD, BUCKET_NAME)
 
 def generate_data(size_kb):
     return os.urandom(size_kb * 1024)
