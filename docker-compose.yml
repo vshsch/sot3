@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - tmpfs:/data
+    environment:
+      MINIO_ROOT_USER: "GUTS"
+      MINIO_ROOT_PASSWORD: "B3RS39KiN6T1ME"
+    command: server /data --console-address ":9001"
+    container_name: minio
+    deploy:
+        resources:
+            limits:
+                memory: 512m
+  uploader:
+    build:
+      context: uploader/.
+    depends_on:
+      - minio
+    container_name: uploader
+
+volumes:
+  tmpfs:
+    driver_opts:
+      o: "size=128m"
+      device: tmpfs
+      type: tmpfs
